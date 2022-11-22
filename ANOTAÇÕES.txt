@@ -1,0 +1,40 @@
+Criar servidor / arquivo principal / criação de serviço
+	// importando o http
+	const http = require('http');
+	//CHAMANDO ARQUIVO APP.JS
+	const app = require('./app');
+	// guardar porta
+	const port = process.env.PORT || 3000;
+
+// criando server
+const server = http.createServer(app);
+server.listen(port);
+
+//CRIAR ARQUIVO APP.JS PARA EXPORTAÇÃO
+const express = require('express');
+const app = express();
+
+//REQUISIÇÃO/RESPOSTA/NEXT
+app.use((req, res, next) => {
+//STATUS CODE -> ESSE 200 É DO HTTP.CAT 
+    res.status(200).send({
+        mensagem: 'Ok! Tudo certo!'
+    })
+});
+
+//EXPORTAR APP PARA TODO PROJETO
+module.exports = app;
+
+//RESUMO
+//CRIA UM SERVIÇO DE HTPP
+const http = require('http');
+
+//PEGA O APP
+const app = require('./app');
+
+//DEFINE UMA PORTA PADRÃO
+const port = process.env.PORT || 3000;
+
+//CRIA O SERVER PASSANDO O APP ESCUTANDO ELE NA PORTA
+const server = http.createServer(app);
+server.listen(port);
