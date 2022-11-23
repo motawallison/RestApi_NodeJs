@@ -38,3 +38,116 @@ const port = process.env.PORT || 3000;
 //CRIA O SERVER PASSANDO O APP ESCUTANDO ELE NA PORTA
 const server = http.createServer(app);
 server.listen(port);
+
+//criar diretorio para rotas 
+//routes
+//criar aquivo para rotas 
+
+const express = require('express');
+const router = express.Router();
+
+//retorna todos os pedidos
+router.get('/', (req, res, next) => {
+    res.status(200).send({
+        mensagem: 'Retorna um pedido'
+    });
+});
+
+//insere um pedido
+router.post('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'O pedido foi criado'
+    });
+});
+
+//retorna os dados de um pedido
+router.get('/:id_pedido', (req, res, next) => {
+    const id = req.params.id_pedido
+    res.status(201).send({
+    mensagem: 'Detalhes do pedido',
+    id_pedido: id
+        });
+});
+
+
+//exclui um pedido
+router.delete('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'Usando DELETE dentro da rota de pedidos'
+    });
+});
+
+module.exports = router;
+
+//Quando não encontra rota
+app.use((req, res, next) => {
+    const erro = new Error('Não encontrado');
+    erro.status = 404;
+    next(erro);
+});
+
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    return res.send({
+        erro: {
+            mensagem: error.mensagem
+        }
+    });
+});
+
+module.exports = app;
+
+//Definindo Body-Pars
+
+const express = require('express');
+const router = express.Router();
+
+//retorna todos os produtos
+router.get('/', (req, res, next) => {
+    res.status(200).send({
+        mensagem: 'Retorna todos os produtos'
+    });
+});
+
+//insere um produto
+router.post('/', (req, res, next) => {
+    const produto = {
+        nome:req.body.nome, //esse body vem do body-pars
+        preco: req.body.preco
+    };
+    res.status(201).send({
+        mensagem: 'Insere um produto'
+    });
+});
+
+//retorna os dados de um produto
+router.get('/:id', (req, res, next) => {
+    const id = req.params.id_produto
+    if (id === 'especial'){
+        res.status(201).send({
+            mensagem: 'Produto especial',
+            id: id
+        });
+    } else {
+        res.status(201).send({
+            mensagem: 'Você passou um ID'
+        });
+    }
+    
+});
+
+//altera um produto
+router.patch('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'Produto alterado'
+    });
+});
+
+//exclui um produto
+router.delete('/', (req, res, next) => {
+    res.status(201).send({
+        mensagem: 'Produto excluido'
+    });
+});
+
+module.exports = router;
